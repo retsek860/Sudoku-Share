@@ -3,7 +3,7 @@ if (isset($_POST["loginSubmit"]) && !empty($_POST["username"]) && !empty($_POST[
     
     if ($_POST["password"] == $_POST["passwordCheck"]) {
 
-        $mysqli = new mysqli("localhost", "root", "sqlpassword", "sudokuSolver");
+        require "/includes/dbh.inc.php";
 
         if ($mysqli->connect_error) {
             
