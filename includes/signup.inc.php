@@ -3,35 +3,27 @@ if (isset($_POST["loginSubmit"]) && !empty($_POST["username"]) && !empty($_POST[
     
     if ($_POST["password"] == $_POST["passwordCheck"]) {
 
-        require "/includes/dbh.inc.php";
+        require "dbh.inc.php";
 
-        if ($mysqli->connect_error) {
-            
-            exit(mysqli_connect_error());
-        
-        } else {
+        $query = $conn->prepare("SELECT * FROM users WHERE username = ?");
+        $query->bind_param('s', $_POST["username"]);
+        $query->execute();
+        $result = $query->get_result();
+        $query->close();
 
-            $query = $mysqli->prepare("SELECT * FROM users WHERE username = ?");
-            $query->bind_param('s', $_POST["username"]);
+        if ($result->num_rows == 0) {
+
+            $passHash = md5($_POST["password"]);
+            $query = $conn->prepare("INSERT INTO users (username, passHash) VALUES (?, ?)");
+            $query->bind_param("ss", $_POST["username"], $passHash);
             $query->execute();
-            $result = $query->get_result();
             $query->close();
 
-            if ($result->num_rows == 0) {
+            header("Location: ../login.php?signup=success");
 
-                $passHash = md5($_POST["password"]);
-                $query = $mysqli->prepare("INSERT INTO users (username, passHash) VALUES (?, ?)");
-                $query->bind_param("ss", $_POST["username"], $passHash);
-                $query->execute();
-                $query->close();
+        } else {
 
-                header("Location: ../login.php?signup=success");
-
-            } else {
-
-                echo "<br><div style='text-align:center'>An account with that name already exists<br><a style='text-align:center' href='\signup.php'>Return to sign-up page</a></div>";
-
-            }
+            echo "<br><div style='text-align:center'>An account with that name already exists<br><a style='text-align:center' href='\signup.php'>Return to sign-up page</a></div>";
         }
     }
 }

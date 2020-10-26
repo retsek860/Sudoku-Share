@@ -1,17 +1,12 @@
 <?php
+session_start();
 if (isset($_POST["loginSubmit"]) && !empty($_POST["username"]) && !empty($_POST["password"])) {
 
-    require "/includes/dbh.inc.php";
-
-    if ($mysqli->connect_error) {
-        
-        exit(mysqli_connect_error());
-    
-    }
+    require "dbh.inc.php";
 
     $passHash = md5($_POST["password"]);
 
-    $query = $mysqli->prepare("SELECT * FROM users WHERE username = ?");
+    $query = $conn->prepare("SELECT * FROM users WHERE username = ?");
     $query->bind_param('s', $_POST['username']);
     $query->execute();
     $result = $query->get_result();
@@ -23,7 +18,8 @@ if (isset($_POST["loginSubmit"]) && !empty($_POST["username"]) && !empty($_POST[
     $query->close();
 
     if ($passHashCheck == $passHash) {
-        // Login the user into their account
+        $_SESSION["uid"] = $uid;
+        header("Location: ../index.php");
     }
 
 } else {
