@@ -1,11 +1,5 @@
 <?php
 session_start();
-if (isset($_SESSION["uid"])) {
-    echo("<div id='loggedin' style='display: none;'>1</div>");
-    echo(strval($_SESSION["uid"]));
-} else {
-    echo("<div id='loggedin' style='display: none;'>0</div>");
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,18 +9,26 @@ if (isset($_SESSION["uid"])) {
         <title>Sudoku Sharer</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="/sudokushare/style.css">
         <script language="JavaScript" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script language="JavaScript" type="text/javascript" src="main.js"></script>
         <script language="JavaScript" type="text/javascript" src="sudokuSolver.js"></script>
     </head>
 
+    <?php
+    if (isset($_SESSION["uid"])) {
+        echo("<div id='loggedin' style='display: none;'>1</div>");
+    } else {
+        echo("<div id='loggedin' style='display: none;'>0</div>");
+    }
+    ?>
+
     <header style="text-align:right; margin-right: 60px">
         <?php
         if (isset($_SESSION["uid"])) {
-            echo("You are logged in");
+            echo("<div>You are logged in as " . $_SESSION["username"] . "</div>");
         } else {
-            echo("You are not logged in");
+            echo("<div>You are not logged in</div>");
         }
         ?>
     </header>

@@ -30,8 +30,21 @@ function createGrid() {
     $(".grid").height(60);
 }
 
-$( document ).ready(function() {
+function loadSudoku(code) {
+    code = decode(code);
+    for (var i = 0; i < 9; i++) {
+        for (var j = 0; j < 9; j++) {
+            var value = code.charAt(i + (9*j));
+            if (value != 0) {
+                $('[data-row="' + i + '"][data-column="' + j + '"]').css("fontSize", 50);
+                $('[data-row="' + i + '"][data-column="' + j + '"]').html(i);
+            }
+        }
+    }
+}
 
+$( document ).ready(function() {
+    
     createGrid();
 
     $(".grid").hover(
@@ -65,5 +78,4 @@ $( document ).ready(function() {
             $(this).css("fontSize", 0);
         }
     });
-
 });

@@ -14,11 +14,13 @@ if (isset($_POST["loginSubmit"]) && !empty($_POST["username"]) && !empty($_POST[
     $row = $result->fetch_assoc();
     $uid = $row["uid"];
     $passHashCheck = $row["passHash"];
+    $username = $row["username"];
 
     $query->close();
 
     if ($passHashCheck == $passHash) {
         $_SESSION["uid"] = $uid;
+        $_SESSION["username"] = $username;
         header("Location: ../index.php");
     }
 
