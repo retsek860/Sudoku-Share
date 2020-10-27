@@ -12,8 +12,10 @@ function solveSudoku() {
     for (var i = 0; i < 9; i++) {
         for (var j = 0; j < 9; j++) {
             if ((workingGrid[i][j] != 0) && (isValid(workingGrid, i, j, workingGrid[i][j]) == false)) {
+                if (working == true) {
+                    alert("This is not a valid sudoku");
+                }
                 working = false;
-                alert("This is not a valid sudoku")
             }
         }
     }

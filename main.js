@@ -31,13 +31,18 @@ function createGrid() {
 }
 
 function loadSudoku(code) {
-    code = decode(code);
+
     for (var i = 0; i < 9; i++) {
         for (var j = 0; j < 9; j++) {
             var value = code.charAt(i + (9*j));
             if (value != 0) {
-                $('[data-row="' + i + '"][data-column="' + j + '"]').css("fontSize", 50);
-                $('[data-row="' + i + '"][data-column="' + j + '"]').html(i);
+                $('[data-row="' + j + '"][data-column="' + i + '"]').css("background", "lightgrey");
+                $('[data-row="' + j + '"][data-column="' + i + '"]').css("fontSize", 50);
+                $('[data-row="' + j + '"][data-column="' + i + '"]').html(value);
+            } else {
+                $('[data-row="' + j + '"][data-column="' + i + '"]').html("");
+                $('[data-row="' + j + '"][data-column="' + i + '"]').css("fontSize", 0);
+                $('[data-row="' + j + '"][data-column="' + i + '"]').css("background", "none");
             }
         }
     }
